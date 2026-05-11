@@ -1,0 +1,1521 @@
+
+# Part 1: HTML structure and CSS
+html_part1 = '''<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مذكرة التربية من أجل التنمية المستدامة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6B9080;
+            --primary-light: #A4C3B2;
+            --primary-dark: #3D5A4C;
+            --secondary: #E8B4B8;
+            --secondary-light: #F5D5D8;
+            --accent: #C8A97E;
+            --accent-light: #E8D5B7;
+            --bg-main: #F6FFF8;
+            --bg-card: rgba(255, 255, 255, 0.85);
+            --bg-card-hover: rgba(255, 255, 255, 0.95);
+            --text-dark: #2D3436;
+            --text-medium: #636E72;
+            --text-light: #95A5A6;
+            --success: #52B788;
+            --success-light: #D8F3DC;
+            --error: #E76F51;
+            --error-light: #FFE5E0;
+            --warning: #E9C46A;
+            --shadow-soft: 0 8px 32px rgba(107, 144, 128, 0.15);
+            --shadow-medium: 0 12px 40px rgba(107, 144, 128, 0.2);
+            --radius-sm: 12px;
+            --radius-md: 20px;
+            --radius-lg: 28px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #F6FFF8 0%, #E8F5E9 25%, #F0F7F4 50%, #FFF5F5 75%, #F6FFF8 100%);
+            background-attachment: fixed;
+            color: var(--text-dark);
+            line-height: 1.9;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .particles {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; overflow: hidden;
+        }
+        .particle {
+            position: absolute; border-radius: 50%; opacity: 0.4;
+            animation: float-particle linear infinite;
+        }
+        @keyframes float-particle {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.4; } 90% { opacity: 0.4; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        .main-header {
+            position: relative; padding: 80px 20px 60px; text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 50%, var(--primary) 100%);
+            color: white; overflow: hidden;
+            border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+            margin-bottom: 40px; box-shadow: var(--shadow-medium);
+        }
+        .main-header::before {
+            content: ''; position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: shimmer 8s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0%, 100% { transform: translate(0, 0); } 50% { transform: translate(5%, 5%); }
+        }
+        .main-header h1 {
+            font-size: 2.8rem; font-weight: 800; margin-bottom: 15px;
+            position: relative; z-index: 1;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.2); animation: fadeInDown 1s ease;
+        }
+        .main-header .subtitle {
+            font-size: 1.3rem; font-weight: 400; opacity: 0.95;
+            position: relative; z-index: 1; animation: fadeInUp 1s ease 0.3s both;
+        }
+        .main-header .year-badge {
+            display: inline-block; margin-top: 20px; padding: 10px 30px;
+            background: rgba(255,255,255,0.2); backdrop-filter: blur(10px);
+            border-radius: 50px; font-weight: 700; font-size: 1.1rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .nav-container {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(246, 255, 248, 0.9); backdrop-filter: blur(20px);
+            padding: 15px; margin: -20px auto 40px; max-width: 900px;
+            border-radius: var(--radius-md); box-shadow: var(--shadow-soft);
+            border: 1px solid rgba(107, 144, 128, 0.1);
+        }
+        .nav-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .nav-btn {
+            padding: 12px 28px; border: none; border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            color: white; font-family: 'Tajawal', sans-serif;
+            font-size: 1rem; font-weight: 700; cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(107, 144, 128, 0.3);
+            position: relative; overflow: hidden;
+        }
+        .nav-btn::after {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+        .nav-btn:hover::after { left: 100%; }
+        .nav-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(107, 144, 128, 0.4); }
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            box-shadow: 0 4px 15px rgba(200, 169, 126, 0.4);
+        }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
+
+        .chapter-section { display: none; animation: fadeIn 0.6s ease; }
+        .chapter-section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        .chapter-header {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-card-hover));
+            padding: 35px; border-radius: var(--radius-lg); margin-bottom: 30px;
+            box-shadow: var(--shadow-soft); border: 1px solid rgba(107, 144, 128, 0.1);
+            position: relative; overflow: hidden;
+        }
+        .chapter-header::before {
+            content: ''; position: absolute; top: 0; right: 0;
+            width: 150px; height: 150px;
+            background: radial-gradient(circle, var(--primary-light) 0%, transparent 70%);
+            opacity: 0.3;
+        }
+        .chapter-number {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 60px; height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white; border-radius: 50%; font-size: 1.8rem; font-weight: 800;
+            margin-bottom: 15px; box-shadow: 0 4px 15px rgba(107, 144, 128, 0.4);
+            animation: pulse 2s ease infinite;
+        }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .chapter-header h2 { font-size: 1.9rem; color: var(--primary-dark); margin-bottom: 10px; font-weight: 800; }
+        .chapter-header p { color: var(--text-medium); font-size: 1.1rem; }
+
+        .content-card {
+            background: var(--bg-card); backdrop-filter: blur(10px);
+            padding: 30px; border-radius: var(--radius-md); margin-bottom: 25px;
+            box-shadow: var(--shadow-soft); border: 1px solid rgba(107, 144, 128, 0.08);
+            transition: var(--transition); position: relative; overflow: hidden;
+        }
+        .content-card::before {
+            content: ''; position: absolute; top: 0; right: 0; width: 5px; height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--primary-light));
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+        }
+        .content-card:hover {
+            transform: translateY(-5px); box-shadow: var(--shadow-medium);
+            background: var(--bg-card-hover);
+        }
+        .content-card h3 {
+            color: var(--primary-dark); font-size: 1.4rem; margin-bottom: 18px;
+            display: flex; align-items: center; gap: 12px; font-weight: 700;
+        }
+        .content-card h3 i { color: var(--primary); font-size: 1.3rem; }
+        .content-card p, .content-card li { color: var(--text-dark); font-size: 1.05rem; line-height: 2; }
+        .content-card ul { list-style: none; padding: 0; }
+        .content-card li {
+            padding: 10px 15px; margin: 8px 0;
+            background: rgba(164, 195, 178, 0.15); border-radius: var(--radius-sm);
+            position: relative; padding-right: 40px; transition: var(--transition);
+        }
+        .content-card li::before { content: '✦'; position: absolute; right: 15px; color: var(--primary); font-weight: bold; }
+        .content-card li:hover { background: rgba(164, 195, 178, 0.3); transform: translateX(-5px); }
+
+        .highlight-box {
+            background: linear-gradient(135deg, var(--success-light), rgba(164, 195, 178, 0.2));
+            border: 2px solid var(--success); border-radius: var(--radius-md);
+            padding: 25px; margin: 20px 0; position: relative;
+        }
+        .highlight-box::before {
+            content: '💡'; position: absolute; top: -15px; right: 20px;
+            background: white; padding: 5px 10px; border-radius: 50%;
+            font-size: 1.5rem; box-shadow: var(--shadow-soft);
+        }
+        .highlight-box h4 { color: var(--primary-dark); margin-bottom: 10px; font-weight: 700; }
+
+        .timeline { position: relative; padding: 20px 0; }
+        .timeline::before {
+            content: ''; position: absolute; right: 20px; top: 0; bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--primary-light), var(--accent));
+            border-radius: 3px;
+        }
+        .timeline-item {
+            position: relative; padding-right: 60px; margin-bottom: 25px;
+            padding: 20px 60px 20px 20px;
+            background: rgba(255,255,255,0.6); border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+        .timeline-item:hover { background: rgba(255,255,255,0.9); transform: translateX(-5px); }
+        .timeline-item::before {
+            content: ''; position: absolute; right: 12px; top: 25px;
+            width: 16px; height: 16px; background: var(--primary);
+            border-radius: 50%; border: 3px solid white;
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+        .timeline-year {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white; padding: 4px 16px; border-radius: 20px;
+            font-weight: 700; font-size: 0.95rem; margin-bottom: 8px;
+        }
+
+        .quiz-section {
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-card-hover));
+            border-radius: var(--radius-lg); padding: 40px; margin: 40px 0;
+            box-shadow: var(--shadow-medium); border: 2px solid rgba(107, 144, 128, 0.15);
+            position: relative; overflow: hidden;
+        }
+        .quiz-section::before {
+            content: ''; position: absolute; top: -100px; left: -100px;
+            width: 300px; height: 300px;
+            background: radial-gradient(circle, var(--secondary-light) 0%, transparent 70%);
+            opacity: 0.5;
+        }
+        .quiz-header { text-align: center; margin-bottom: 35px; position: relative; }
+        .quiz-header h2 { font-size: 2rem; color: var(--primary-dark); margin-bottom: 10px; font-weight: 800; }
+        .quiz-header p { color: var(--text-medium); font-size: 1.1rem; }
+
+        .quiz-progress { display: flex; justify-content: center; gap: 8px; margin: 25px 0; flex-wrap: wrap; }
+        .progress-dot {
+            width: 14px; height: 14px; border-radius: 50%;
+            background: var(--primary-light); transition: var(--transition); cursor: pointer;
+        }
+        .progress-dot.active { background: var(--primary); transform: scale(1.3); box-shadow: 0 0 10px var(--primary-light); }
+        .progress-dot.answered { background: var(--success); }
+        .progress-dot.wrong { background: var(--error); }
+
+        .question-card {
+            background: white; border-radius: var(--radius-md); padding: 30px;
+            margin-bottom: 25px; box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            border: 1px solid rgba(107, 144, 128, 0.1);
+            transition: var(--transition); position: relative; overflow: hidden;
+        }
+        .question-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+        .question-card.correct { border-color: var(--success); background: linear-gradient(135deg, white, var(--success-light)); }
+        .question-card.incorrect { border-color: var(--error); background: linear-gradient(135deg, white, var(--error-light)); }
+
+        .question-number {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white; padding: 8px 20px; border-radius: 25px;
+            font-weight: 700; margin-bottom: 20px; font-size: 0.95rem;
+        }
+        .question-text { font-size: 1.2rem; font-weight: 700; color: var(--text-dark); margin-bottom: 25px; line-height: 1.8; }
+
+        .tf-buttons { display: flex; gap: 15px; margin-bottom: 20px; }
+        .tf-btn {
+            flex: 1; padding: 18px 25px; border: 2px solid var(--primary-light);
+            background: white; border-radius: var(--radius-sm);
+            font-family: 'Tajawal', sans-serif; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; transition: var(--transition);
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            color: var(--text-dark);
+        }
+        .tf-btn:hover {
+            transform: translateY(-3px); box-shadow: 0 6px 20px rgba(107, 144, 128, 0.2);
+            border-color: var(--primary);
+        }
+        .tf-btn.selected {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white; border-color: var(--primary);
+            box-shadow: 0 6px 20px rgba(107, 144, 128, 0.3);
+        }
+        .tf-btn.correct-answer {
+            background: linear-gradient(135deg, var(--success), #40916C);
+            color: white; border-color: var(--success); animation: correctPulse 0.5s ease;
+        }
+        .tf-btn.wrong-answer {
+            background: linear-gradient(135deg, var(--error), #D35400);
+            color: white; border-color: var(--error); animation: shake 0.5s ease;
+        }
+        @keyframes correctPulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
+
+        .mc-options { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .mc-option {
+            padding: 16px 20px; border: 2px solid rgba(107, 144, 128, 0.2);
+            background: white; border-radius: var(--radius-sm);
+            font-family: 'Tajawal', sans-serif; font-size: 1.05rem;
+            cursor: pointer; transition: var(--transition);
+            display: flex; align-items: center; gap: 15px;
+            text-align: right; color: var(--text-dark);
+        }
+        .mc-option:hover {
+            border-color: var(--primary); background: rgba(164, 195, 178, 0.1);
+            transform: translateX(-5px);
+        }
+        .mc-option.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(164, 195, 178, 0.2), rgba(164, 195, 178, 0.1));
+            box-shadow: 0 4px 15px rgba(107, 144, 128, 0.15);
+        }
+        .mc-option.correct-answer {
+            border-color: var(--success);
+            background: linear-gradient(135deg, var(--success-light), rgba(164, 195, 178, 0.1));
+            animation: correctPulse 0.5s ease;
+        }
+        .mc-option.wrong-answer {
+            border-color: var(--error);
+            background: linear-gradient(135deg, var(--error-light), rgba(231, 111, 81, 0.05));
+            animation: shake 0.5s ease;
+        }
+        .option-letter {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 36px; height: 36px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            color: white; border-radius: 50%; font-weight: 700;
+            font-size: 0.95rem; flex-shrink: 0;
+        }
+        .mc-option.correct-answer .option-letter { background: linear-gradient(135deg, var(--success), #40916C); }
+        .mc-option.wrong-answer .option-letter { background: linear-gradient(135deg, var(--error), #D35400); }
+
+        .explanation {
+            display: none; padding: 20px; border-radius: var(--radius-sm);
+            margin-top: 15px; font-size: 1rem; line-height: 1.9; animation: fadeIn 0.4s ease;
+        }
+        .explanation.show { display: block; }
+        .explanation.correct-exp { background: var(--success-light); border-right: 4px solid var(--success); color: var(--primary-dark); }
+        .explanation.wrong-exp { background: var(--error-light); border-right: 4px solid var(--error); color: var(--text-dark); }
+        .explanation-title { font-weight: 800; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+
+        .submit-btn {
+            display: block; width: 100%; max-width: 400px; margin: 30px auto;
+            padding: 18px 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white; border: none; border-radius: var(--radius-sm);
+            font-family: 'Tajawal', sans-serif; font-size: 1.2rem; font-weight: 700;
+            cursor: pointer; transition: var(--transition);
+            box-shadow: 0 6px 25px rgba(107, 144, 128, 0.4);
+            position: relative; overflow: hidden;
+        }
+        .submit-btn::after {
+            content: ''; position: absolute; top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: 0.5s;
+        }
+        .submit-btn:hover::after { left: 100%; }
+        .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 35px rgba(107, 144, 128, 0.5); }
+        .submit-btn:disabled { background: var(--text-light); cursor: not-allowed; transform: none; box-shadow: none; }
+
+        .results-card {
+            display: none;
+            background: linear-gradient(135deg, white, var(--success-light));
+            border-radius: var(--radius-lg); padding: 40px; text-align: center;
+            margin: 30px 0; box-shadow: var(--shadow-medium);
+            border: 2px solid var(--success); animation: fadeIn 0.6s ease;
+        }
+        .results-card.show { display: block; }
+        .results-icon { font-size: 4rem; margin-bottom: 20px; animation: bounce 1s ease infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .results-score { font-size: 3rem; font-weight: 800; color: var(--primary-dark); margin-bottom: 10px; }
+        .results-message { font-size: 1.3rem; color: var(--text-medium); margin-bottom: 20px; }
+        .motivational-quote {
+            background: linear-gradient(135deg, var(--accent-light), var(--secondary-light));
+            padding: 25px; border-radius: var(--radius-md); margin-top: 20px;
+            font-size: 1.2rem; font-weight: 700; color: var(--primary-dark);
+            position: relative; border: 2px solid var(--accent);
+        }
+        .motivational-quote::before {
+            content: '"'; font-size: 4rem; position: absolute;
+            top: -10px; right: 15px; color: var(--accent); opacity: 0.5;
+            font-family: serif;
+        }
+
+        .summary-table {
+            width: 100%; border-collapse: separate; border-spacing: 0;
+            margin: 25px 0; border-radius: var(--radius-md); overflow: hidden;
+            box-shadow: var(--shadow-soft);
+        }
+        .summary-table th {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white; padding: 18px; font-weight: 700; font-size: 1.1rem;
+        }
+        .summary-table td { padding: 16px 18px; background: white; border-bottom: 1px solid rgba(107, 144, 128, 0.1); transition: var(--transition); }
+        .summary-table tr:hover td { background: rgba(164, 195, 178, 0.1); }
+        .summary-table tr:last-child td { border-bottom: none; }
+
+        .main-footer {
+            text-align: center; padding: 40px 20px; margin-top: 60px;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white; border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            position: relative; overflow: hidden;
+        }
+        .main-footer::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+            background: linear-gradient(to right, var(--accent), var(--secondary), var(--primary-light));
+        }
+        .main-footer p { font-size: 1.1rem; opacity: 0.9; }
+        .footer-heart { color: var(--secondary); animation: heartbeat 1.5s ease infinite; display: inline-block; }
+        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-main); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, var(--primary-light), var(--primary)); border-radius: 5px; }
+
+        @media (max-width: 768px) {
+            .main-header h1 { font-size: 1.8rem; }
+            .chapter-header h2 { font-size: 1.4rem; }
+            .content-card { padding: 20px; }
+            .quiz-section { padding: 25px; }
+            .tf-buttons { flex-direction: column; }
+            .nav-buttons { flex-direction: column; align-items: center; }
+            .nav-btn { width: 100%; max-width: 300px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <header class="main-header">
+        <h1><i class="fas fa-graduation-cap"></i> التربية من أجل التنمية المستدامة</h1>
+        <p class="subtitle">ملخص شامل وتفاعلي مع اختبارات ذكية</p>
+        <div class="year-badge">العام الدراسي 2024-2025</div>
+    </header>
+
+    <nav class="nav-container">
+        <div class="nav-buttons">
+            <button class="nav-btn active" onclick="showChapter(1)"><i class="fas fa-book-open"></i> الفصل الأول</button>
+            <button class="nav-btn" onclick="showChapter(2)"><i class="fas fa-leaf"></i> الفصل الثاني</button>
+            <button class="nav-btn" onclick="showChapter(3)"><i class="fas fa-chalkboard-teacher"></i> الفصل الثالث</button>
+        </div>
+    </nav>
+
+    <div class="container">
+'''
+
+with open('/mnt/agents/output/education_sustainable_development.html', 'w', encoding='utf-8') as f:
+    f.write(html_part1)
+
+print("Part 1 written successfully") 
+
+# Part 2: Chapter 1 content and quiz
+html_part2 = '''
+        <!-- Chapter 1 -->
+        <section class="chapter-section active" id="chapter1">
+            <div class="chapter-header">
+                <div class="chapter-number">1</div>
+                <h2>التربية: المفاهيم والأسس والوسائط</h2>
+                <p>دراسة شاملة لنشأة التربية وطبيعتها وأهدافها ومصادرها</p>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-seedling"></i> نشأة التربية وتاريخها</h3>
+                <p>التربية نشأت كعملية اجتماعية مع وجود الإنسان على الأرض. بدأت التربية <strong>غير المقصودة (غير المدرسية)</strong> عن طريق المحاكاة والتقليد من الأبناء للآباء. البنات تعلمن من أمهاتهن مهارات إدارة البيت وتنظيمه.</p>
+                <p>مع تعقد الحياة وظهور الزراعة والصناعة، ظهرت الحاجة للتربية <strong>المقصودة (المدرسية)</strong> والتخصص في العمل، فظهرت فئة المعلمين المتخصصين.</p>
+                <div class="highlight-box">
+                    <h4>نقطة مهمة</h4>
+                    <p>التربية في بدايتها لم تكن مؤسسة اجتماعية منفصلة، بل كانت جزءاً من ممارسات أعضاء الجماعة لأعمالهم المختلفة.</p>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-brain"></i> طبيعة التربية وخصائصها</h3>
+                <ul>
+                    <li><strong>ظاهرة اجتماعية:</strong> تتم في إطار وجود المجتمع وتختلف باختلاف المجتمعات</li>
+                    <li><strong>عملية إنسانية:</strong> موضوعها الإنسان، تتكيف مع بيئته الاجتماعية</li>
+                    <li><strong>عملية مستمرة:</strong> من المهد إلى اللحد (الموت)، لا تتوقف مع التقدم في العمر</li>
+                    <li><strong>عملية شاملة:</strong> تشمل الجوانب الجسمية والعقلية والخلقية والعقدية والاجتماعية والجمالية</li>
+                    <li><strong>عملية تكيف:</strong> تساعد الإنسان على التكيف والانسجام مع بيئته</li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-language"></i> المعنى اللغوي والاصطلاحي</h3>
+                <p><strong>لغوياً:</strong> من الجذر "ربا" بمعاني ثلاثة:</p>
+                <ul>
+                    <li><strong>ربا، ربى، رب:</strong> بمعنى نما وينمو (النمو)</li>
+                    <li><strong>ربى، يربى:</strong> بمعنى نشأه وغذاه ورعاه (التنشئة)</li>
+                    <li><strong>رب، يرب:</strong> بمعنى أصلحه وتولى أمره (الإصلاح والرعاية)</li>
+                </ul>
+                <p><strong>اصطلاحاً:</strong> تنمية وإيادة الوظائف الجسمية والعقلية والخلقية والعقدية والاجتماعية للكائن البشري لكي تبلغ كمالها ورقتها وتمامها.</p>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-not-equal"></i> الفرق بين التربية والتعليم</h3>
+                <table class="summary-table">
+                    <tr><th>التعليم</th><th>التربية</th></tr>
+                    <tr><td>نقل معرفة أو معلومات</td><td>أشمل وأعمق من التعليم</td></tr>
+                    <tr><td>يركز على الجانب العقلي</td><td>تشمل الجوانب الجسمية والعقلية والخلقية والاجتماعية</td></tr>
+                    <tr><td>عملية محددة في الزمان والمكان</td><td>عملية مستمرة طوال الحياة</td></tr>
+                    <tr><td>المعلم والمتعلم</td><td>الأسرة والمدرسة والمجتمع والإعلام</td></tr>
+                </table>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-list-check"></i> وظائف التربية الأساسية</h3>
+                <ul>
+                    <li><strong>نقل التراث الثقافي:</strong> من جيل إلى جيل مع التنقية والتطوير</li>
+                    <li><strong>تزويد الفرد بمواقف سلوكية:</strong> اكتساب الخبرات الاجتماعية والتربوية</li>
+                    <li><strong>تكيف الفرد مع بيئته:</strong> الاندماج والانتماء للجماعة</li>
+                    <li><strong>اكتساب اللغة:</strong> وسيلة التخاطب والتفاهم بين الأفراد</li>
+                    <li><strong>تنمية الشخصية المتكاملة:</strong> الجسم والعقل والنفس والروح</li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-foundation"></i> أسس التربية</h3>
+                <ul>
+                    <li><strong>الأساس الديني:</strong> الفطرة السليمة، الدين سامي مطهر، يعالج الروح والجسد</li>
+                    <li><strong>الأساس الاجتماعي:</strong> المدرسة صورة من المجتمع، تطلعات نحو مستقبل أفضل</li>
+                    <li><strong>الأساس السياسي:</strong> التربية تساير سياسة الدولة ونظام الحكم</li>
+                    <li><strong>الأساس النفسي:</strong> بناء على علم النفس ودراسة مراحل النمو العقلي والعاطفي</li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-bullseye"></i> أهداف التربية ومصادرها</h3>
+                <p><strong>المصدر الأول: المجتمع</strong></p>
+                <ul>
+                    <li><strong>الناحية الثقافية:</strong> نقل التراث الثقافي الصالح وتنقيته</li>
+                    <li><strong>الناحية الاجتماعية:</strong> إيجاد التماسك الاجتماعي والتكافل</li>
+                    <li><strong>الناحية الاقتصادية:</strong> استثمار بشري لتكوين قوى عاملة ماهرة</li>
+                    <li><strong>الناحية الخلقية:</strong> غرس القيم والأخلاق السامية</li>
+                </ul>
+                <p><strong>المصدر الثاني: الفرد</strong></p>
+                <ul>
+                    <li>تنمية كافة الطاقات والمهارات والإمكانات</li>
+                    <li>جعل الفرد أكثر كفاءة وقدرة على السعادة</li>
+                    <li>تكوين شخصية متكاملة ومستقلة</li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-network-wired"></i> الوسائط التربوية</h3>
+                <ul>
+                    <li><strong>البيئة (الأسرة):</strong> أول وسيلة تربوية، المصدر الأساسي للتنشئة</li>
+                    <li><strong>المدرسة:</strong> مؤسسة تربوية رئيسية منظمة</li>
+                    <li><strong>أماكن العبادة:</strong> دور كبير في التربية الدينية والخلقية</li>
+                    <li><strong>وسائل الإعلام:</strong> نشر الثقافة والتوجيه</li>
+                    <li><strong>أماكن العمل:</strong> التربية المهنية والاجتماعية</li>
+                </ul>
+            </div>
+
+            <!-- Quiz Section Chapter 1 -->
+            <div class="quiz-section">
+                <div class="quiz-header">
+                    <h2><i class="fas fa-clipboard-check"></i> اختبار الفصل الأول</h2>
+                    <p>أجب على الأسئلة التالية لتقييم فهمك للفصل</p>
+                </div>
+                <div class="quiz-progress" id="progress1"></div>
+
+                <!-- TF Questions -->
+                <div class="question-card" data-q="1-1" data-type="tf" data-answer="false">
+                    <div class="question-number">س 1 <span style="font-size:0.8rem">(صح/خطأ)</span></div>
+                    <div class="question-text">التربية في بدايتها كانت عملية مقصودة ومنظمة منذ وجود الإنسان.</div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" onclick="selectTF(this, 'true')"><i class="fas fa-check-circle"></i> صح</button>
+                        <button class="tf-btn" onclick="selectTF(this, 'false')"><i class="fas fa-times-circle"></i> خطأ</button>
+                    </div>
+                    <div class="explanation wrong-exp">
+                        <div class="explanation-title"><i class="fas fa-times-circle"></i> الإجابة الصحيحة: خطأ</div>
+                        <p>كانت التربية في البداية <strong>غير مقصودة (غير مدرسية)</strong> عن طريق المحاكاة والتقليد من الأبناء للآباء. لم تكن مؤسسة منظمة بل كانت جزءاً من الحياة اليومية.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="1-2" data-type="tf" data-answer="true">
+                    <div class="question-number">س 2 <span style="font-size:0.8rem">(صح/خطأ)</span></div>
+                    <div class="question-text">التربية عملية مستمرة من المهد إلى اللحد (الموت).</div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" onclick="selectTF(this, 'true')"><i class="fas fa-check-circle"></i> صح</button>
+                        <button class="tf-btn" onclick="selectTF(this, 'false')"><i class="fas fa-times-circle"></i> خطأ</button>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>التربية عملية <strong>مستمرة</strong> لا تتوقف عند سن معين، بل تستمر طوال حياة الإنسان منذ الولادة حتى الوفاة.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="1-3" data-type="tf" data-answer="false">
+                    <div class="question-number">س 3 <span style="font-size:0.8rem">(صح/خطأ)</span></div>
+                    <div class="question-text">التعليم والتربية مترادفان ولهما نفس المعنى تماماً.</div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" onclick="selectTF(this, 'true')"><i class="fas fa-check-circle"></i> صح</button>
+                        <button class="tf-btn" onclick="selectTF(this, 'false')"><i class="fas fa-times-circle"></i> خطأ</button>
+                    </div>
+                    <div class="explanation wrong-exp">
+                        <div class="explanation-title"><i class="fas fa-times-circle"></i> الإجابة الصحيحة: خطأ</div>
+                        <p>التعليم <strong>أضيق</strong> من التربية. التعليم يركز على الجانب العقلي/المعرفي فقط (نقل المعلومات)، بينما التربية أشمل وتشمل التنشئة الاجتماعية والتهذيب وتكوين القيم والسلوك.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="1-4" data-type="tf" data-answer="true">
+                    <div class="question-number">س 4 <span style="font-size:0.8rem">(صح/خطأ)</span></div>
+                    <div class="question-text">من وظائف التربية نقل التراث الثقافي من جيل إلى جيل.</div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" onclick="selectTF(this, 'true')"><i class="fas fa-check-circle"></i> صح</button>
+                        <button class="tf-btn" onclick="selectTF(this, 'false')"><i class="fas fa-times-circle"></i> خطأ</button>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>نقل التراث الثقافي من أهم وظائف التربية، مع التنقية والتطوير والإضافة الصالحة للتراث.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="1-5" data-type="tf" data-answer="true">
+                    <div class="question-number">س 5 <span style="font-size:0.8rem">(صح/خطأ)</span></div>
+                    <div class="question-text">المجتمع والفرد هما مصدران أساسيان لاشتقاق أهداف التربية.</div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" onclick="selectTF(this, 'true')"><i class="fas fa-check-circle"></i> صح</button>
+                        <button class="tf-btn" onclick="selectTF(this, 'false')"><i class="fas fa-times-circle"></i> خطأ</button>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>تشتق أهداف التربية من مصدرين أساسيين: <strong>المجتمع</strong> (الثقافية، الاجتماعية، الاقتصادية، الخلقية) و<strong>الفرد</strong> (تنمية طاقاته ومهاراته).</p>
+                    </div>
+                </div>
+
+                <!-- MC Questions -->
+                <div class="question-card" data-q="1-6" data-type="mc" data-answer="b">
+                    <div class="question-number">س 6 <span style="font-size:0.8rem">(اختياري)</span></div>
+                    <div class="question-text">ما المعنى اللغوي الأساسي لكلمة "تربية" من حيث الجذر؟</div>
+                    <div class="mc-options">
+                        <div class="mc-option" onclick="selectMC(this, 'a')"><span class="option-letter">أ</span><span>تعليم وتثقيف</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'b')"><span class="option-letter">ب</span><span>نماه وغذاه ونشأه</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'c')"><span class="option-letter">ج</span><span>تأديب وعقاب</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'd')"><span class="option-letter">د</span><span>تلقين وحفظ</span></div>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>تعود كلمة "تربية" لأصولها اللغوية إلى ثلاثة معانٍ: <strong>النمو</strong> (ربا، ربى)، <strong>التنشئة والغذاء</strong> (ربى، يربى)، و<strong>الإصلاح والرعاية</strong> (رب، يرب).</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="1-7" data-type="mc" data-answer="b">
+                    <div class="question-number">س 7 <span style="font-size:0.8rem">(اختياري)</span></div>
+                    <div class="question-text">أي مما يلي يعتبر من الوسائط التربوية غير المقصودة (غير المدرسية)؟</div>
+                    <div class="mc-options">
+                        <div class="mc-option" onclick="selectMC(this, 'a')"><span class="option-letter">أ</span><span>المدرسة</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'b')"><span class="option-letter">ب</span><span>الأسرة والبيئة</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'c')"><span class="option-letter">ج</span><span>الجامعة</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'd')"><span class="option-letter">د</span><span>المعهد</span></div>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p><strong>الأسرة والبيئة</strong> هما أول وسيلة تربوية غير مقصودة (غير مدرسية). المدرسة والجامعة والمعهد من الوسائط المقصودة والمنظمة.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="1-8" data-type="mc" data-answer="c">
+                    <div class="question-number">س 8 <span style="font-size:0.8rem">(اختياري)</span></div>
+                    <div class="question-text">أي الأسس التالية يربط التربية بسياسة الدولة ونظام الحكم؟</div>
+                    <div class="mc-options">
+                        <div class="mc-option" onclick="selectMC(this, 'a')"><span class="option-letter">أ</span><span>الأساس الديني</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'b')"><span class="option-letter">ب</span><span>الأساس الاجتماعي</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'c')"><span class="option-letter">ج</span><span>الأساس السياسي</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'd')"><span class="option-letter">د</span><span>الأساس النفسي</span></div>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p><strong>الأساس السياسي</strong> يربط التربية بسياسة الدولة، فالتربية تساير توجهات الدولة ونظام الحكم (ديمقراطي أو استبدادي).</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="1-9" data-type="mc" data-answer="b">
+                    <div class="question-number">س 9 <span style="font-size:0.8rem">(اختياري)</span></div>
+                    <div class="question-text">ما الركيزة الأولى التي تستند عليها عملية التربية والنمو المتكامل؟</div>
+                    <div class="mc-options">
+                        <div class="mc-option" onclick="selectMC(this, 'a')"><span class="option-letter">أ</span><span>قوة الإرادة والعزيمة</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'b')"><span class="option-letter">ب</span><span>ضعف الوليد البشري وحاجته الدائمة للآخرين</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'c')"><span class="option-letter">ج</span><span>المال والثروة</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'd')"><span class="option-letter">د</span><span>القوة العسكرية</span></div>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>الركيزة الأولى هي <strong>ضعف الوليد البشري</strong> وحاجته الدائمة للآخرين من بني جنسه، مما يجعل التربية ضرورة حتمية لاستمرار الحياة.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="1-10" data-type="mc" data-answer="b">
+                    <div class="question-number">س 10 <span style="font-size:0.8rem">(اختياري)</span></div>
+                    <div class="question-text">في أي مرحلة تاريخية ظهرت فئة المعلمين المتخصصين؟</div>
+                    <div class="mc-options">
+                        <div class="mc-option" onclick="selectMC(this, 'a')"><span class="option-letter">أ</span><span>منذ بداية وجود الإنسان</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'b')"><span class="option-letter">ب</span><span>مع تعقد الحياة وظهور الزراعة والصناعة</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'c')"><span class="option-letter">ج</span><span>في العصر الحديث فقط</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'd')"><span class="option-letter">د</span><span>في العصور الوسطى</span></div>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>ظهرت فئة المعلمين <strong>مع تعقد الحياة</strong> وظهور الزراعة والصناعة، حيث احتاج المجتمع لتخصص بعض الأفراد في تعليم الصغار.</p>
+                    </div>
+                </div>
+
+                <button class="submit-btn" onclick="submitQuiz(1)"><i class="fas fa-paper-plane"></i> سلّم الإجابات</button>
+
+                <div class="results-card" id="results1">
+                    <div class="results-icon" id="icon1">🎉</div>
+                    <div class="results-score" id="score1">0/10</div>
+                    <div class="results-message" id="message1"></div>
+                    <div class="motivational-quote" id="quote1"></div>
+                </div>
+            </div>
+        </section>
+'''
+
+with open('/mnt/agents/output/education_sustainable_development.html', 'a', encoding='utf-8') as f:
+    f.write(html_part2)
+
+print("Part 2 written successfully") 
+
+# Part 3: Chapter 2 content and quiz
+html_part3 = '''
+        <!-- Chapter 2 -->
+        <section class="chapter-section" id="chapter2">
+            <div class="chapter-header">
+                <div class="chapter-number">2</div>
+                <h2>التنمية المستدامة وعلاقتها بالتربية</h2>
+                <p>تاريخ المفهوم، التعريفات، الأهداف، والتحديات</p>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-clock-rotate-left"></i> تاريخ مفهوم التنمية المستدامة</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="timeline-year">1972</span>
+                        <p><strong>مؤتمر ستوكهولم:</strong> نقطة البداية لتوجيه الاهتمام العالمي بالبيئة. ناقش القضايا البيئية لأول مرة.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">1987</span>
+                        <p><strong>تقرير بريتندلاند "مستقبلنا المشترك":</strong> طرح فكرة التنمية المستدامة كنموذج بديل.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">1992</span>
+                        <p><strong>قمة الأرض في ريو دي جانيرو:</strong> اعتماد فكرة التنمية المستدامة رسمياً.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">2002</span>
+                        <p><strong>مؤتمر جوهانسبرج:</strong> أكد على حماية البيئة المشتركة والقضاء على الفقر.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">2015</span>
+                        <p><strong>أجندة 2030:</strong> إقرار 17 هدفاً للتنمية المستدامة.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-year">2022</span>
+                        <p><strong>COP27 في شرم الشيخ:</strong> مؤتمر المناخ العالمي في مصر.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-book-open"></i> تعريفات التنمية المستدامة</h3>
+                <div class="highlight-box">
+                    <h4>التعريف الأشهر (لجنة بريتندلاند 1987)</h4>
+                    <p>"التنمية التي تلبي <strong>حاجات الجيل الحالي</strong> دون إضرار بقدرة <strong>الأجيال القادمة</strong> على تلبية احتياجاتها"</p>
+                </div>
+                <ul>
+                    <li><strong>اقتصادياً:</strong> توظيف الموارد لرفع مستوى المعيشة والحد من الفقر</li>
+                    <li><strong>اجتماعياً:</strong> استقرار النمو السكاني ورفع الخدمات الصحية والتعليمية</li>
+                    <li><strong>بيئياً:</strong> حماية الموارد الطبيعية والتنوع البيولوجي</li>
+                    <li><strong>تكنولوجياً:</strong> نقل المجتمع لعصر الصناعة النظيفة الصديقة للبيئة</li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-bullseye"></i> أهداف التنمية المستدامة (17 هدف)</h3>
+                <table class="summary-table">
+                    <tr><th>الهدف</th><th>الوصف</th></tr>
+                    <tr><td>الهدف 1</td><td>القضاء على الفقر بجميع أشكاله</td></tr>
+                    <tr><td>الهدف 2</td><td>القضاء على الجوع وتحسين التغذية</td></tr>
+                    <tr><td>الهدف 3</td><td>الصحة الجيدة والرفاهية للجميع</td></tr>
+                    <tr><td>الهدف 4</td><td>التعليم الجيد المنصف والشامل</td></tr>
+                    <tr><td>الهدف 5</td><td>المساواة بين الجنسين وتمكين المرأة</td></tr>
+                    <tr><td>الهدف 6</td><td>المياه النظيفة والصرف الصحي</td></tr>
+                    <tr><td>الهدف 7</td><td>الطاقة النظيفة والميسرة</td></tr>
+                    <tr><td>الهدف 8</td><td>النمو الاقتصادي المطرد والشامل</td></tr>
+                    <tr><td>الهدف 9</td><td>البنية التحتية والصناعة والابتكار</td></tr>
+                    <tr><td>الهدف 10</td><td>الحد من عدم المساواة</td></tr>
+                    <tr><td>الهدف 11-15</td><td>المدن المستدامة، الاستهلاك المسؤول، العمل المناخي، الحياة تحت الماء والبرية</td></tr>
+                    <tr><td>الهدف 16-17</td><td>السلام والعدالة، الشراكات العالمية</td></tr>
+                </table>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-scale-balanced"></i> مبادئ التنمية المستدامة</h3>
+                <ul>
+                    <li><strong>مبدأ المشاركة:</strong> مشاركة المجتمع في عملية التنمية</li>
+                    <li><strong>المسؤولية المشتركة:</strong> بين القائمين على التنمية وأفراد المجتمع</li>
+                    <li><strong>تنمية الموارد:</strong> تنمية الموارد البشرية والمادية والمالية</li>
+                    <li><strong>مبدأ المركزية:</strong> مشاركة أفراد المجتمع في اتخاذ القرار</li>
+                    <li><strong>الإنصاف بين الأجيال:</strong> تلبية احتياجات الحاضر دون المساس بالمستقبل</li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-triangle-exclamation"></i> التحديات والمعوقات</h3>
+                <ul>
+                    <li><strong>التهديدات البيئية:</strong> النمو السكاني، الاحتباس الحراري، تغير المناخ</li>
+                    <li><strong>التحضر:</strong> انتقال السكان من الريف للمدن وما يرافقه من مشاكل</li>
+                    <li><strong>استخدام الطاقة:</strong> الاستهلاك المفرط للوقود الأحفوري وانبعاثات الغازات</li>
+                    <li><strong>ندرة المياه:</strong> نقص المياه الصالحة للشرب والاستخدام</li>
+                    <li><strong>إدارة المخلفات:</strong> تراكم النفايات وصعوبة التخلص منها</li>
+                </ul>
+            </div>
+
+            <!-- Quiz Section Chapter 2 -->
+            <div class="quiz-section">
+                <div class="quiz-header">
+                    <h2><i class="fas fa-clipboard-check"></i> اختبار الفصل الثاني</h2>
+                    <p>أجب على الأسئلة التالية لتقييم فهمك للفصل</p>
+                </div>
+                <div class="quiz-progress" id="progress2"></div>
+
+                <div class="question-card" data-q="2-1" data-type="tf" data-answer="true">
+                    <div class="question-number">س 1 <span style="font-size:0.8rem">(صح/خطأ)</span></div>
+                    <div class="question-text">مؤتمر ستوكهولم عام 1972 يعتبر نقطة البداية لتوجيه الاهتمام العالمي بالبيئة.</div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" onclick="selectTF(this, 'true')"><i class="fas fa-check-circle"></i> صح</button>
+                        <button class="tf-btn" onclick="selectTF(this, 'false')"><i class="fas fa-times-circle"></i> خطأ</button>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>مؤتمر ستوكهولم 1972 كان <strong>نقطة البداية</strong> لتوجيه الاهتمام العالمي بالقضايا البيئية وناقشها لأول مرة على المستوى الدولي.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="2-2" data-type="tf" data-answer="false">
+                    <div class="question-number">س 2 <span style="font-size:0.8rem">(صح/خطأ)</span></div>
+                    <div class="question-text">التنمية المستدامة تهتم فقط بالجانب الاقتصادي دون الاجتماعي أو البيئي.</div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" onclick="selectTF(this, 'true')"><i class="fas fa-check-circle"></i> صح</button>
+                        <button class="tf-btn" onclick="selectTF(this, 'false')"><i class="fas fa-times-circle"></i> خطأ</button>
+                    </div>
+                    <div class="explanation wrong-exp">
+                        <div class="explanation-title"><i class="fas fa-times-circle"></i> الإجابة الصحيحة: خطأ</div>
+                        <p>التنمية المستدامة هي <strong>تنمية شاملة</strong> تجمع الأبعاد الاقتصادية والاجتماعية والبيئية والتكنولوجية معاً، وليس جانباً واحداً فقط.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="2-3" data-type="tf" data-answer="true">
+                    <div class="question-number">س 3 <span style="font-size:0.8rem">(صح/خطأ)</span></div>
+                    <div class="question-text">هناك 17 هدفاً للتنمية المستدامة أقرها المجتمع الدولي في أجندة 2030.</div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" onclick="selectTF(this, 'true')"><i class="fas fa-check-circle"></i> صح</button>
+                        <button class="tf-btn" onclick="selectTF(this, 'false')"><i class="fas fa-times-circle"></i> خطأ</button>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>أقر المجتمع الدولي <strong>17 هدفاً</strong> للتنمية المستدامة في أجندة 2030، تغطي جميع جوانب التنمية البشرية.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="2-4" data-type="tf" data-answer="false">
+                    <div class="question-number">س 4 <span style="font-size:0.8rem">(صح/خطأ)</span></div>
+                    <div class="question-text">التنمية المستدامة تعني تلبية حاجات الجيل الحالي فقط بغض النظر عن الأجيال القادمة.</div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" onclick="selectTF(this, 'true')"><i class="fas fa-check-circle"></i> صح</button>
+                        <button class="tf-btn" onclick="selectTF(this, 'false')"><i class="fas fa-times-circle"></i> خطأ</button>
+                    </div>
+                    <div class="explanation wrong-exp">
+                        <div class="explanation-title"><i class="fas fa-times-circle"></i> الإجابة الصحيحة: خطأ</div>
+                        <p>التنمية المستدامة تعني تلبية حاجات الجيل الحالي <strong>دون إضرار</strong> بقدرة الأجيال القادمة على تلبية احتياجاتها (مبدأ الإنصاف بين الأجيال).</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="2-5" data-type="tf" data-answer="true">
+                    <div class="question-number">س 5 <span style="font-size:0.8rem">(صح/خطأ)</span></div>
+                    <div class="question-text">ندرة المياه والتحضر السريع من التحديات التي تواجه التنمية المستدامة.</div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" onclick="selectTF(this, 'true')"><i class="fas fa-check-circle"></i> صح</button>
+                        <button class="tf-btn" onclick="selectTF(this, 'false')"><i class="fas fa-times-circle"></i> خطأ</button>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>من أبرز التحديات: <strong>النمو السكاني</strong>، <strong>التحضر السريع</strong>، <strong>ندرة المياه</strong>، <strong>تغير المناخ</strong>، و<strong>إدارة المخلفات</strong>.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="2-6" data-type="mc" data-answer="b">
+                    <div class="question-number">س 6 <span style="font-size:0.8rem">(اختياري)</span></div>
+                    <div class="question-text">في أي عام صدر تقرير "مستقبلنا المشترك" الذي طرح فكرة التنمية المستدامة؟</div>
+                    <div class="mc-options">
+                        <div class="mc-option" onclick="selectMC(this, 'a')"><span class="option-letter">أ</span><span>1972</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'b')"><span class="option-letter">ب</span><span>1987</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'c')"><span class="option-letter">ج</span><span>1992</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'd')"><span class="option-letter">د</span><span>2002</span></div>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>صدر تقرير <strong>بريتندلاند</strong> "مستقبلنا المشترك" عام <strong>1987</strong> وطرح فيه فكرة التنمية المستدامة كنموذج بديل للتنمية التقليدية.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="2-7" data-type="mc" data-answer="d">
+                    <div class="question-number">س 7 <span style="font-size:0.8rem">(اختياري)</span></div>
+                    <div class="question-text">ما الهدف الرابع من أهداف التنمية المستدامة الـ17؟</div>
+                    <div class="mc-options">
+                        <div class="mc-option" onclick="selectMC(this, 'a')"><span class="option-letter">أ</span><span>القضاء على الفقر</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'b')"><span class="option-letter">ب</span><span>القضاء على الجوع</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'c')"><span class="option-letter">ج</span><span>الصحة الجيدة</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'd')"><span class="option-letter">د</span><span>التعليم الجيد المنصف والشامل</span></div>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>الهدف الرابع هو <strong>"ضمان التعليم الجيد المنصف والشامل للجميع وتعزيز فرص التعلم مدى الحياة للجميع"</strong>.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="2-8" data-type="mc" data-answer="c">
+                    <div class="question-number">س 8 <span style="font-size:0.8rem">(اختياري)</span></div>
+                    <div class="question-text">أي من التالي يمثل البعد البيئي للتنمية المستدامة؟</div>
+                    <div class="mc-options">
+                        <div class="mc-option" onclick="selectMC(this, 'a')"><span class="option-letter">أ</span><span>رفع مستوى الدخل القومي</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'b')"><span class="option-letter">ب</span><span>تحسين الخدمات الصحية</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'c')"><span class="option-letter">ج</span><span>حماية الموارد الطبيعية والتنوع البيولوجي</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'd')"><span class="option-letter">د</span><span>زيادة الإنتاج الصناعي</span></div>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>ال<strong>بعد البيئي</strong> يهتم بحماية الموارد الطبيعية والتنوع البيولوجي واستخدام الموارد بشكل مستدام.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="2-9" data-type="mc" data-answer="c">
+                    <div class="question-number">س 9 <span style="font-size:0.8rem">(اختياري)</span></div>
+                    <div class="question-text">أين عُقد مؤتمر COP27 للمناخ عام 2022؟</div>
+                    <div class="mc-options">
+                        <div class="mc-option" onclick="selectMC(this, 'a')"><span class="option-letter">أ</span><span>دبي</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'b')"><span class="option-letter">ب</span><span>الرياض</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'c')"><span class="option-letter">ج</span><span>شرم الشيخ، مصر</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'd')"><span class="option-letter">د</span><span>الدوحة</span></div>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>عُقد <strong>COP27</strong> في مدينة <strong>شرم الشيخ</strong> في مصر في نوفمبر 2022.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="2-10" data-type="mc" data-answer="b">
+                    <div class="question-number">س 10 <span style="font-size:0.8rem">(اختياري)</span></div>
+                    <div class="question-text">ما المقصود بمبدأ "الإنصاف بين الأجيال" في التنمية المستدامة؟</div>
+                    <div class="mc-options">
+                        <div class="mc-option" onclick="selectMC(this, 'a')"><span class="option-letter">أ</span><span>مساواة الأجيال في العمر</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'b')"><span class="option-letter">ب</span><span>تلبية احتياجات الجيل الحالي دون المساس بقدرة الأجيال القادمة</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'c')"><span class="option-letter">ج</span><span>توريث الثروات فقط</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'd')"><span class="option-letter">د</span><span>تعليم كبار السن</span></div>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>مبدأ <strong>الإنصاف بين الأجيال</strong> يعني تلبية احتياجات الجيل الحالي دون إضرار بقدرة الأجيال القادمة على تلبية احتياجاتها.</p>
+                    </div>
+                </div>
+
+                <button class="submit-btn" onclick="submitQuiz(2)"><i class="fas fa-paper-plane"></i> سلّم الإجابات</button>
+
+                <div class="results-card" id="results2">
+                    <div class="results-icon" id="icon2">🎉</div>
+                    <div class="results-score" id="score2">0/10</div>
+                    <div class="results-message" id="message2"></div>
+                    <div class="motivational-quote" id="quote2"></div>
+                </div>
+            </div>
+        </section>
+'''
+
+with open('/mnt/agents/output/education_sustainable_development.html', 'a', encoding='utf-8') as f:
+    f.write(html_part3)
+
+print("Part 3 written successfully")  
+
+# Part 4: Chapter 3 content and quiz
+html_part4 = '''
+        <!-- Chapter 3 -->
+        <section class="chapter-section" id="chapter3">
+            <div class="chapter-header">
+                <div class="chapter-number">3</div>
+                <h2>دور التربية في تحقيق التنمية المستدامة</h2>
+                <p>المفاهيم، الاستراتيجيات، الأساليب التربوية</p>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-lightbulb"></i> مفهوم التعليم من أجل التنمية المستدامة</h3>
+                <p>التعليم من أجل التنمية المستدامة هو <strong>عملية تستمر مدى الحياة</strong>، موجهة لتسليط الضوء على الترابط بين الأنظمة والبيئة، وتغيير السلوكيات والقيم نحو الاستدامة.</p>
+                <div class="highlight-box">
+                    <h4>تعريف اليونسكو</h4>
+                    <p>"عملية تعليم موجهة إلى تسليط الضوء على الترابط المتبادل بين البشر والأنظمة البيئية والاقتصادية والاجتماعية"</p>
+                </div>
+                <ul>
+                    <li>دمج قضايا التنمية المستدامة في التعليم النظامي وغير النظامي</li>
+                    <li>تغيير نماذج العقلية التقليدية نحو التفكير المنظومي</li>
+                    <li>نشر الوعي العام كجزء من التثقيف</li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-list-check"></i> عناصر التعليم من أجل الاستدامة (UNESCO)</h3>
+                <ul>
+                    <li>يُتيح للمتعلم اكتساب المهارات والقيم والمعرفة المطلوبة لضمان التنمية المستدامة</li>
+                    <li>يقدم في كل المستويات التعليمية والسياقات الاجتماعية (الأسرة، المدرسة، العمل، المجتمع)</li>
+                    <li>يُعد مواطناً مسؤولاً ويشجع الديمقراطية</li>
+                    <li>يحقق التنمية المتكاملة للفرد</li>
+                    <li>مبني على مبدأ <strong>التعلم مدى الحياة</strong></li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-link"></i> التعليم وأهداف التنمية المستدامة</h3>
+                <table class="summary-table">
+                    <tr><th>الهدف</th><th>دور التعليم</th></tr>
+                    <tr><td>الهدف 1 (الفقر)</td><td>يؤدي لخفض الخصوبة وتحسين الدخل</td></tr>
+                    <tr><td>الهدف 2 (الجوع)</td><td>يحسن الزراعة المستدامة وسوء التغذية</td></tr>
+                    <tr><td>الهدف 3 (الصحة)</td><td>يقلل الأمراض ويحسن الوعي الصحي</td></tr>
+                    <tr><td>الهدف 4 (التعليم)</td><td>ضمان التعليم الجيد المنصف والشامل</td></tr>
+                    <tr><td>الهدف 5 (المساواة)</td><td>تمكين المرأة عبر التعليم</td></tr>
+                    <tr><td>الهدف 6-7 (المياه والطاقة)</td><td>توعية استخدام الموارد المستدامة</td></tr>
+                    <tr><td>الهدف 8-9 (النمو)</td><td>الاستثمار في رأس المال البشري</td></tr>
+                    <tr><td>الهدف 10-15</td><td>الحد من عدم المساواة، المدن المستدامة، العمل المناخي</td></tr>
+                    <tr><td>الهدف 16-17</td><td>السلام والشراكات العالمية</td></tr>
+                </table>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-flag"></i> استراتيجية مصر 2030 للتنمية المستدامة في التعليم</h3>
+                <ul>
+                    <li><strong>تعليم عالي الجودة</strong> متاح للجميع</li>
+                    <li>تمكين المعلمين والقادة التربويين</li>
+                    <li>بناء الشخصية المتكاملة</li>
+                    <li>التعليم من أجل المواطنة والتعددية</li>
+                    <li>التعليم من أجل التنمية المستدامة</li>
+                    <li>تمكين الطلاب من المهارات اللغوية والرياضية والعلوم وتكنولوجيا المعلومات</li>
+                    <li>تمكين الطلاب من المهارات الحياتية ومهارات القرن الواحد والعشرين</li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-compass"></i> مبادئ التعليم من أجل الاستدامة</h3>
+                <ul>
+                    <li><strong>التحول والتغيير:</strong> ليس مجرد معلومات بل مهارات وقدرات</li>
+                    <li><strong>التعليم للجميع ومدى الحياة:</strong> شمولية التعليم في كل المراحل</li>
+                    <li><strong>التفكير في الأنظمة:</strong> فهم العلاقات المعقدة بين الأنظمة</li>
+                    <li><strong>رؤية أفضل للمستقبل:</strong> تكوين رؤية مشتركة لمستقبل مستدام</li>
+                    <li><strong>التفكير النقدي:</strong> تدبر الخبرات والآراء والممارسات</li>
+                    <li><strong>المشاركة:</strong> تشجيع مشاركة الأفراد والمجموعات</li>
+                    <li><strong>الشراكة من أجل التغيير:</strong> بناء شبكات وعلاقات بين القطاعات</li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-user-graduate"></i> الكفاءات الضرورية للمعلمين</h3>
+                <ul>
+                    <li>الإلمام بالتنمية المستدامة وأهدافها المختلفة</li>
+                    <li>تكوين فكرة شاملة عن القضايا والتحديات (اجتماعية، بيئية، اقتصادية، ثقافية)</li>
+                    <li>التسامي في مفهوم التنمية المستدامة والتحديات</li>
+                    <li>فهم العلاقة بين التعليم النظامي وغير النظامي</li>
+                    <li>أداء دور فاعل لإحداث التغيير في المؤسسة التعليمية</li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-chalkboard-user"></i> الأساليب التربوية للتنمية المستدامة</h3>
+                <ul>
+                    <li><strong>المحاكاة:</strong> وضع السيناريوهات الواقعية للتعلم (مثل إدارة موارد قرية صغيرة)</li>
+                    <li><strong>نقاش الفصل:</strong> تبادل المعلومات والخبرات بين الطلاب والمعلم</li>
+                    <li><strong>تحليل المشكلة:</strong> تحديد المحاور والحلول الممكنة للمشكلات المعقدة</li>
+                    <li><strong>سرد القصة:</strong> التعبير عن مفاهيم الاستدامة عبر القصص والتجارب</li>
+                    <li><strong>التعلم بالمشاركة:</strong> العمل الجماعي والمشروعات التعاونية</li>
+                    <li><strong>التعلم في الهواء الطلق:</strong> الدراسات الميدانية والرحلات</li>
+                    <li><strong>التعلم القائم على المشاريع:</strong> مشاريع يشارك فيها المتعلمون</li>
+                </ul>
+            </div>
+
+            <div class="content-card">
+                <h3><i class="fas fa-graduation-cap"></i> التحولات المطلوبة في التعليم</h3>
+                <table class="summary-table">
+                    <tr><th>من</th><th>إلى</th></tr>
+                    <tr><td>التعلم الاستهلاكي</td><td>التعلم الاستكشافي</td></tr>
+                    <tr><td>محور المعلم</td><td>محور المتعلم</td></tr>
+                    <tr><td>التعليم الموجه بالمحتوى</td><td>التعليم الموجه باحتياجات المتعلم</td></tr>
+                    <tr><td>التركيز على الأهداف الإدراكية فقط</td><td>التركيز على الأهداف الوجدانية والمهارية أيضاً</td></tr>
+                </table>
+            </div>
+
+            <!-- Quiz Section Chapter 3 -->
+            <div class="quiz-section">
+                <div class="quiz-header">
+                    <h2><i class="fas fa-clipboard-check"></i> اختبار الفصل الثالث</h2>
+                    <p>أجب على الأسئلة التالية لتقييم فهمك للفصل</p>
+                </div>
+                <div class="quiz-progress" id="progress3"></div>
+
+                <div class="question-card" data-q="3-1" data-type="tf" data-answer="false">
+                    <div class="question-number">س 1 <span style="font-size:0.8rem">(صح/خطأ)</span></div>
+                    <div class="question-text">التعليم من أجل التنمية المستدامة يقتصر على المرحلة المدرسية فقط.</div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" onclick="selectTF(this, 'true')"><i class="fas fa-check-circle"></i> صح</button>
+                        <button class="tf-btn" onclick="selectTF(this, 'false')"><i class="fas fa-times-circle"></i> خطأ</button>
+                    </div>
+                    <div class="explanation wrong-exp">
+                        <div class="explanation-title"><i class="fas fa-times-circle"></i> الإجابة الصحيحة: خطأ</div>
+                        <p>التعليم من أجل التنمية المستدامة هو <strong>عملية تستمر مدى الحياة</strong> (lifelong learning)، تشمل التعليم النظامي وغير النظامي في كل مراحل الحياة.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="3-2" data-type="tf" data-answer="true">
+                    <div class="question-number">س 2 <span style="font-size:0.8rem">(صح/خطأ)</span></div>
+                    <div class="question-text">من مبادئ التعليم للاستدامة: التفكير النقدي والمشاركة والشراكة من أجل التغيير.</div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" onclick="selectTF(this, 'true')"><i class="fas fa-check-circle"></i> صح</button>
+                        <button class="tf-btn" onclick="selectTF(this, 'false')"><i class="fas fa-times-circle"></i> خطأ</button>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>من مبادئ التعليم للاستدامة: <strong>التحول والتغيير</strong>، <strong>التعليم للجميع ومدى الحياة</strong>، <strong>التفكير في الأنظمة</strong>، <strong>رؤية أفضل للمستقبل</strong>، <strong>التفكير النقدي</strong>، <strong>المشاركة</strong>، و<strong>الشراكة من أجل التغيير</strong>.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="3-3" data-type="tf" data-answer="true">
+                    <div class="question-number">س 3 <span style="font-size:0.8rem">(صح/خطأ)</span></div>
+                    <div class="question-text">استراتيجية مصر 2030 تهدف إلى جعل مصر من أفضل 30 دولة في جودة التعليم.</div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" onclick="selectTF(this, 'true')"><i class="fas fa-check-circle"></i> صح</button>
+                        <button class="tf-btn" onclick="selectTF(this, 'false')"><i class="fas fa-times-circle"></i> خطأ</button>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>تستهدف استراتيجية مصر 2030 أن تصبح مصر من <strong>أفضل 30 دولة</strong> عالمياً من حيث حجم الاقتصاد وتنافسية السوق والتنمية البشرية وجودة الحياة.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="3-4" data-type="tf" data-answer="false">
+                    <div class="question-number">س 4 <span style="font-size:0.8rem">(صح/خطأ)</span></div>
+                    <div class="question-text">المحاكاة كأسلوب تربوي تعتمد على حفظ المعلومات النظرية فقط.</div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" onclick="selectTF(this, 'true')"><i class="fas fa-check-circle"></i> صح</button>
+                        <button class="tf-btn" onclick="selectTF(this, 'false')"><i class="fas fa-times-circle"></i> خطأ</button>
+                    </div>
+                    <div class="explanation wrong-exp">
+                        <div class="explanation-title"><i class="fas fa-times-circle"></i> الإجابة الصحيحة: خطأ</div>
+                        <p>المحاكاة تعتمد على <strong>السيناريوهات الواقعية</strong> والمشاركة الفعالة للطلاب في مواقف تشبه الواقع (مثل إدارة موارد قرية صغيرة بشكل مستدام).</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="3-5" data-type="tf" data-answer="true">
+                    <div class="question-number">س 5 <span style="font-size:0.8rem">(صح/خطأ)</span></div>
+                    <div class="question-text">التعليم يلعب دوراً محورياً في تحقيق الهدف الرابع (التعليم الجيد) والأهداف الأخرى للتنمية المستدامة.</div>
+                    <div class="tf-buttons">
+                        <button class="tf-btn" onclick="selectTF(this, 'true')"><i class="fas fa-check-circle"></i> صح</button>
+                        <button class="tf-btn" onclick="selectTF(this, 'false')"><i class="fas fa-times-circle"></i> خطأ</button>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>التعليم هو <strong>المحرك الأساسي</strong> لتحقيق جميع أهداف التنمية المستدامة، فهو يؤثر في الصحة والاقتصاد والمساواة والبيئة.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="3-6" data-type="mc" data-answer="b">
+                    <div class="question-number">س 6 <span style="font-size:0.8rem">(اختياري)</span></div>
+                    <div class="question-text">ما هو الهدف الرئيسي من التعليم من أجل التنمية المستدامة؟</div>
+                    <div class="mc-options">
+                        <div class="mc-option" onclick="selectMC(this, 'a')"><span class="option-letter">أ</span><span>زيادة عدد سنوات الدراسة فقط</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'b')"><span class="option-letter">ب</span><span>تغيير السلوكيات والقيم نحو الاستدامة</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'c')"><span class="option-letter">ج</span><span>بناء المدارس فقط</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'd')"><span class="option-letter">د</span><span>زيادة المناهج الدراسية</span></div>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>الهدف الرئيسي هو <strong>تغيير السلوكيات والقيم</strong> نحو الاستدامة، وليس مجرد نقل المعلومات. يهدف إلى تكوين مواطن مسؤول يفهم الترابط بين الأنظمة.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="3-7" data-type="mc" data-answer="b">
+                    <div class="question-number">س 7 <span style="font-size:0.8rem">(اختياري)</span></div>
+                    <div class="question-text">أي من التالي يمثل أسلوب "المحاكاة" في التعليم للاستدامة؟</div>
+                    <div class="mc-options">
+                        <div class="mc-option" onclick="selectMC(this, 'a')"><span class="option-letter">أ</span><span>حفظ النصوص النظرية</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'b')"><span class="option-letter">ب</span><span>وضع السيناريوهات الواقعية للتعلم</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'c')"><span class="option-letter">ج</span><span>الاختبارات التحريرية التقليدية</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'd')"><span class="option-letter">د</span><span>الدراسة الفردية المنزلية</span></div>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>المحاكاة تعني <strong>وضع السيناريوهات الواقعية</strong> للتعلم، مثل محاكاة إدارة موارد قرية صغيرة بشكل مستدام أو التعامل مع أزمة بيئية.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="3-8" data-type="mc" data-answer="c">
+                    <div class="question-number">س 8 <span style="font-size:0.8rem">(اختياري)</span></div>
+                    <div class="question-text">ما العلاقة بين التعليم والهدف الخامس (المساواة بين الجنسين)؟</div>
+                    <div class="mc-options">
+                        <div class="mc-option" onclick="selectMC(this, 'a')"><span class="option-letter">أ</span><span>لا علاقة بينهما</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'b')"><span class="option-letter">ب</span><span>يقلل التعليم من دور المرأة</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'c')"><span class="option-letter">ج</span><span>يمكن المرأة ويحسن ظروفها المعيشية ويدعم المجتمع</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'd')"><span class="option-letter">د</span><span>يقتصر على تعليم الذكور فقط</span></div>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>التعليم <strong>يمكن المرأة</strong> ويحسن ظروفها المعيشية ويدعم المجتمع، ويساعدها على اتخاذ خيارات مستنيرة في حياتها ولوج سوق العمل.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="3-9" data-type="mc" data-answer="b">
+                    <div class="question-number">س 9 <span style="font-size:0.8rem">(اختياري)</span></div>
+                    <div class="question-text">في استراتيجية مصر 2030، ما المقصود بـ "تعليم عالي الجودة متاح للجميع"؟</div>
+                    <div class="mc-options">
+                        <div class="mc-option" onclick="selectMC(this, 'a')"><span class="option-letter">أ</span><span>تعليم خاص للأغنياء فقط</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'b')"><span class="option-letter">ب</span><span>تعليم يتميز بالجودة والإتاحة للجميع مع التمكين التكنولوجي</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'c')"><span class="option-letter">ج</span><span>تعليم تقليدي بدون تطوير</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'd')"><span class="option-letter">د</span><span>تعليم مجاني فقط دون جودة</span></div>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p>يعني <strong>تعليم عالي الجودة</strong> يتميز بالإتاحة للجميع مع التمكين التكنولوجي وجودة الحياة المدرسية، وليس مجرد التعليم المجاني.</p>
+                    </div>
+                </div>
+
+                <div class="question-card" data-q="3-10" data-type="mc" data-answer="b">
+                    <div class="question-number">س 10 <span style="font-size:0.8rem">(اختياري)</span></div>
+                    <div class="question-text">أي مما يلي يمثل "الكفاءة المنظومية" المطلوبة للتنمية المستدامة؟</div>
+                    <div class="mc-options">
+                        <div class="mc-option" onclick="selectMC(this, 'a')"><span class="option-letter">أ</span><span>القدرة على الحفظ الجيد</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'b')"><span class="option-letter">ب</span><span>القدرة على إدراك العلاقات وفهم الأنظمة المعقدة</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'c')"><span class="option-letter">ج</span><span>سرعة إنجاز المهام</span></div>
+                        <div class="mc-option" onclick="selectMC(this, 'd')"><span class="option-letter">د</span><span>القدرة على العمل الفردي</span></div>
+                    </div>
+                    <div class="explanation correct-exp">
+                        <div class="explanation-title"><i class="fas fa-check-circle"></i> إجابة صحيحة!</div>
+                        <p><strong>الكفاءة المنظومية</strong> تعني القدرة على إدراك العلاقات وفهم الأنظمة المعقدة والتفكير في العلاقات المتبادلة بين البيئة والاقتصاد والمجتمع.</p>
+                    </div>
+                </div>
+
+                <button class="submit-btn" onclick="submitQuiz(3)"><i class="fas fa-paper-plane"></i> سلّم الإجابات</button>
+
+                <div class="results-card" id="results3">
+                    <div class="results-icon" id="icon3">🎉</div>
+                    <div class="results-score" id="score3">0/10</div>
+                    <div class="results-message" id="message3"></div>
+                    <div class="motivational-quote" id="quote3"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="main-footer">
+        <p>صُنع بـ <span class="footer-heart">❤️</span> للتربية من أجل التنمية المستدامة</p>
+        <p style="margin-top:10px; font-size:0.95rem; opacity:0.8">د. جمال محمد أحمد | د. غادة فوزي هاشم</p>
+    </footer>
+'''
+
+with open('/mnt/agents/output/education_sustainable_development.html', 'a', encoding='utf-8') as f:
+    f.write(html_part4)
+
+print("Part 4 written successfully") 
+
+# Part 5: JavaScript
+html_part5 = '''
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const colors = ['#A4C3B2', '#E8B4B8', '#C8A97E', '#6B9080', '#F5D5D8'];
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                const size = Math.random() * 15 + 5;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
+                particle.style.animationDelay = (Math.random() * 10) + 's';
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Chapter navigation
+        function showChapter(num) {
+            document.querySelectorAll('.chapter-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('chapter' + num).classList.add('active');
+            event.target.closest('.nav-btn').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Quiz state
+        const quizState = {
+            1: {}, 2: {}, 3: {}
+        };
+
+        // Initialize progress dots
+        function initProgress(chapter) {
+            const progress = document.getElementById('progress' + chapter);
+            progress.innerHTML = '';
+            for (let i = 1; i <= 10; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'progress-dot';
+                dot.dataset.q = chapter + '-' + i;
+                dot.onclick = () => scrollToQuestion(chapter, i);
+                progress.appendChild(dot);
+            }
+        }
+        [1, 2, 3].forEach(initProgress);
+
+        function scrollToQuestion(chapter, qNum) {
+            const card = document.querySelector(`#chapter${chapter} .question-card[data-q="${chapter}-${qNum}"]`);
+            if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function updateProgress(chapter, qNum, status) {
+            const dot = document.querySelector(`#progress${chapter} .progress-dot[data-q="${chapter}-${qNum}"]`);
+            if (dot) {
+                dot.classList.remove('active', 'answered', 'wrong');
+                dot.classList.add(status);
+            }
+        }
+
+        // True/False selection
+        function selectTF(btn, value) {
+            const card = btn.closest('.question-card');
+            const qNum = parseInt(card.dataset.q.split('-')[1]);
+            const chapter = parseInt(card.dataset.q.split('-')[0]);
+            
+            // Clear previous selection
+            card.querySelectorAll('.tf-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            
+            quizState[chapter][qNum] = value;
+            updateProgress(chapter, qNum, 'active');
+        }
+
+        // Multiple Choice selection
+        function selectMC(option, value) {
+            const card = option.closest('.question-card');
+            const qNum = parseInt(card.dataset.q.split('-')[1]);
+            const chapter = parseInt(card.dataset.q.split('-')[0]);
+            
+            // Clear previous selection
+            card.querySelectorAll('.mc-option').forEach(o => o.classList.remove('selected'));
+            option.classList.add('selected');
+            
+            quizState[chapter][qNum] = value;
+            updateProgress(chapter, qNum, 'active');
+        }
+
+        // Submit quiz
+        function submitQuiz(chapter) {
+            const questions = document.querySelectorAll(`#chapter${chapter} .question-card`);
+            let score = 0;
+            let answered = 0;
+
+            questions.forEach(card => {
+                const qNum = parseInt(card.dataset.q.split('-')[1]);
+                const correctAnswer = card.dataset.answer;
+                const userAnswer = quizState[chapter][qNum];
+                const explanation = card.querySelector('.explanation');
+
+                if (!userAnswer) {
+                    card.style.animation = 'shake 0.5s ease';
+                    setTimeout(() => card.style.animation = '', 500);
+                    return;
+                }
+
+                answered++;
+                const isCorrect = userAnswer === correctAnswer;
+
+                if (isCorrect) {
+                    score++;
+                    card.classList.add('correct');
+                    card.classList.remove('incorrect');
+                    updateProgress(chapter, qNum, 'answered');
+                } else {
+                    card.classList.add('incorrect');
+                    card.classList.remove('correct');
+                    updateProgress(chapter, qNum, 'wrong');
+                }
+
+                // Show correct answer
+                if (card.dataset.type === 'tf') {
+                    card.querySelectorAll('.tf-btn').forEach(btn => {
+                        const btnValue = btn.onclick.toString().includes("'true'") ? 'true' : 'false';
+                        if (btnValue === correctAnswer) {
+                            btn.classList.add('correct-answer');
+                        } else if (btn.classList.contains('selected') && !isCorrect) {
+                            btn.classList.add('wrong-answer');
+                        }
+                    });
+                } else {
+                    card.querySelectorAll('.mc-option').forEach(opt => {
+                        const optValue = opt.onclick.toString().match(/selectMC\(this, '(.+?)'\)/)?.[1];
+                        if (optValue === correctAnswer) {
+                            opt.classList.add('correct-answer');
+                        } else if (opt.classList.contains('selected') && !isCorrect) {
+                            opt.classList.add('wrong-answer');
+                        }
+                    });
+                }
+
+                // Show explanation
+                explanation.classList.add('show');
+            });
+
+            if (answered < 10) {
+                alert('الرجاء الإجابة على جميع الأسئلة الـ10 قبل التسليم!');
+                return;
+            }
+
+            // Show results
+            const resultsCard = document.getElementById('results' + chapter);
+            const scoreEl = document.getElementById('score' + chapter);
+            const messageEl = document.getElementById('message' + chapter);
+            const quoteEl = document.getElementById('quote' + chapter);
+            const iconEl = document.getElementById('icon' + chapter);
+
+            scoreEl.textContent = score + '/10';
+            resultsCard.classList.add('show');
+            resultsCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Confetti for high scores
+            if (score >= 7) {
+                createConfetti();
+            }
+
+            // Messages and quotes
+            const messages = {
+                excellent: ['ممتاز! أداء رائع جداً! 🌟', 'أحسنت! مستوى متميز! ⭐', 'رائع! فهمك للمادة ممتاز! 🎯'],
+                good: ['جيد جداً! استمر في التقدم! 👍', 'أداء جيد! يمكنك التحسن أكثر! 💪', 'جيد! استمر في المراجعة! 📚'],
+                needsWork: ['لا بأس! استمر في المراجعة والمذاكرة! 📖', 'حاول مرة أخرى، التعليم رحلة مستمرة! 🌱', 'كل خطوة تعلم، استمر في المحاولة! 💫']
+            };
+
+            const quotes = {
+                excellent: [
+                    '"التعليم ليس استعداداً للحياة، التعليم هو الحياة نفسها" - جون ديوي',
+                    '"المعلم الذي يعلم بإخلاص، يخلد في قلوب تلاميذه" - مصطفى لطفي المنفلوطي',
+                    '"التربية الصالحة تبني الأمم، والعلم نور يهدي إلى الصواب"'
+                ],
+                good: [
+                    '"النجاح ليس نهائياً، والفشل ليس قاتلاً، إنما الشجاعة للاستمرار هي التي تهم" - ونستون تشرشل',
+                    '"التعليم هو السلاح الأقوى الذي يمكنك استخدامه لتغيير العالم" - نيلسون مانديلا',
+                    '"كل يوم هو فرصة جديدة للتعلم والنمو"'
+                ],
+                needsWork: [
+                    '"الفشل هو فرصة للبدء من جديد بذكاء أكبر" - هنري فورد',
+                    '"لا تيأس، فالعلم بحر زاخر والتعلم رحلة لا تنتهي"',
+                    '"العبرة ليست بعدم السقوط، بل بالنهوض كل مرة نسقط" - اليابانيون'
+                ]
+            };
+
+            let category;
+            if (score >= 8) {
+                category = 'excellent';
+                iconEl.textContent = '🏆';
+            } else if (score >= 5) {
+                category = 'good';
+                iconEl.textContent = '👏';
+            } else {
+                category = 'needsWork';
+                iconEl.textContent = '🌱';
+            }
+
+            messageEl.textContent = messages[category][Math.floor(Math.random() * messages[category].length)];
+            quoteEl.textContent = quotes[category][Math.floor(Math.random() * quotes[category].length)];
+
+            // Disable submit button
+            event.target.disabled = true;
+            event.target.innerHTML = '<i class="fas fa-check"></i> تم التسليم';
+        }
+
+        // Confetti effect
+        function createConfetti() {
+            const colors = ['#6B9080', '#A4C3B2', '#E8B4B8', '#C8A97E', '#52B788', '#E9C46A'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                confetti.style.height = (Math.random() * 10 + 5) + 'px';
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+'''
+
+with open('/mnt/agents/output/education_sustainable_development.html', 'a', encoding='utf-8') as f:
+    f.write(html_part5)
+
+print("Part 5 written successfully - File complete!")
+
+
